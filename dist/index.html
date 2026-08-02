@@ -46,40 +46,72 @@
       </header>
 
       <div class="command-grid">
-        <aside class="left-column">
+        <aside class="left-column typhoon-column">
+          <section class="hud-panel storm-data-panel">
+            <h3><span>台風資訊</span><b id="stormLevelBadge">等級 4 颱風</b></h3>
+            <div class="panel-body storm-summary">
+              <div class="storm-name"><span class="storm-symbol">◉</span><div><strong id="stormName">天鴻</strong><small id="stormCode">TY-0871</small></div></div>
+              <dl>
+                <div><dt>最大持續風速</dt><dd><b id="windValue">165</b> km/h</dd></div>
+                <div><dt>中心氣壓</dt><dd><b id="pressureValue">955</b> hPa</dd></div>
+                <div><dt>移動速度</dt><dd><b id="moveSpeedValue">18</b> km/h</dd></div>
+                <div><dt>移動方向</dt><dd id="directionValue">西北西</dd></div>
+                <div><dt>十級風半徑</dt><dd><b id="radiusValue">190</b> km</dd></div>
+              </dl>
+              <div class="sea-temp-block"><span>海溫異常（°C）</span><b id="seaTempValue">30.8°C</b><i></i><div class="temp-scale"><span>18</span><span>22</span><span>26</span><span>30</span><span>34+</span></div></div>
+              <div class="landfall-block"><span>預測登陸時間</span><strong id="landfallTime">7月17日 09:00</strong><div>⚠ 登陸風險：<b id="riskValue">高</b></div></div>
+            </div>
+          </section>
+
           <section class="hud-panel genesis-panel">
             <h3><span>系統隨機生成</span><em>GENESIS</em></h3>
             <div class="panel-body">
-              <h4>颱風生成點</h4>
+              <h4>台風生成點</h4>
               <div class="radar"><span></span><i></i><b></b></div>
               <dl><div><dt>生成時間</dt><dd id="genesisTime">2087/7/14 03:00</dd></div><div><dt>位置</dt><dd id="genesisPos">北緯 16.3° 東經 131.7°</dd></div></dl>
-              <div class="system-line"><span></span>系統將隨機生成颱風與海溫場</div>
+              <div class="system-line"><span></span>系統將隨機生成台風與海溫場</div>
             </div>
           </section>
+
           <section class="hud-panel behavior-panel">
-            <h3><span>自主行為系統</span><em>AUTONOMOUS</em></h3>
+            <h3><span>天文台式預測</span><em>FORECAST MODEL</em></h3>
             <div class="panel-body">
-              <h4>路徑自主選擇</h4>
+              <h4>路線自主選擇</h4>
               <svg class="branch-svg" viewBox="0 0 220 62" aria-hidden="true"><path d="M10 42 C62 45 74 18 116 30 S165 20 210 10"/><path d="M10 42 C70 43 96 50 142 52 S180 44 210 35"/><path d="M10 42 C74 40 96 12 142 8 S185 16 210 26"/></svg>
               <h4>強度依海溫增強</h4>
               <div class="heat-rule"><span class="mini-cyclone">◉</span><b>＋</b><span>31°C</span><b>＝</b><span class="storm-alert">超強</span></div>
-              <p>海溫越高，海洋熱含量越強</p>
+              <p>預測路線、集合路徑及機率圈會因情報可信度而收窄或擴闊</p>
             </div>
           </section>
-          <div class="system-warning">⚠ AI 已接管颱風行為模式<br><small>人類無法直接控制其路徑與強度</small></div>
-          <section class="hud-panel resource-panel">
-            <h3><span>全域資源狀態</span><em>GLOBAL RESOURCES</em></h3>
-            <div class="resource-grid" id="resourceGrid"></div>
+
+          <div class="system-warning">⚠ AI 已接管台風行為模式<br><small>人類無法直接控制其路徑與強度</small></div>
+
+          <section class="hud-panel city-info-panel">
+            <h3><span>城市資訊點</span><em>CITY BRIEF</em></h3>
+            <div class="panel-body city-info-body">
+              <div class="city-head"><strong id="cityPanelName">香港</strong><small id="cityPanelRisk">風險 48%</small></div>
+              <div class="city-subline" id="cityPanelCoords">22.32°N 114.17°E</div>
+              <dl class="city-stats">
+                <div><dt>人口</dt><dd id="cityPanelPopulation">750 萬</dd></div>
+                <div><dt>沿岸人口</dt><dd id="cityPanelCoastal">430 萬</dd></div>
+                <div><dt>撤離率</dt><dd id="cityPanelEvac">0%</dd></div>
+                <div><dt>防衛完成度</dt><dd id="cityPanelDefense">58%</dd></div>
+                <div><dt>物資儲備</dt><dd id="cityPanelSupply">50%</dd></div>
+                <div><dt>電力穩定度</dt><dd id="cityPanelPower">78%</dd></div>
+                <div><dt>醫療容量</dt><dd id="cityPanelMedical">60%</dd></div>
+                <div><dt>城市狀態</dt><dd id="cityPanelStatus">正常</dd></div>
+              </dl>
+            </div>
           </section>
         </aside>
 
         <section class="map-stage" id="mapStage">
-          <img class="map-base" src="assets/east-asia-satellite-map.png" alt="東亞及西北太平洋衛星戰術底圖" />
+          <img class="map-base" src="assets/east-asia-satellite-map.png" alt="東亞及西北太平洋戰術地圖" />
           <div class="sea-heat heat-a"></div><div class="sea-heat heat-b"></div><div class="sea-heat heat-c"></div>
-          <svg id="weatherOverlay" class="map-svg" viewBox="0 0 1000 680" preserveAspectRatio="none" aria-label="天文台式颱風預測圖">
+          <svg id="weatherOverlay" class="map-svg" viewBox="0 0 1000 680" preserveAspectRatio="none" aria-label="天文台式台風預測圖">
             <defs>
-              <linearGradient id="coneFill" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff436b" stop-opacity=".28"/><stop offset="1" stop-color="#a21f62" stop-opacity=".08"/></linearGradient>
-              <radialGradient id="windFill"><stop offset="0" stop-color="#fd6c50" stop-opacity=".05"/><stop offset=".7" stop-color="#f84c37" stop-opacity=".07"/><stop offset="1" stop-color="#ff896a" stop-opacity=".01"/></radialGradient>
+              <linearGradient id="coneFill" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff436b" stop-opacity=".30"/><stop offset="1" stop-color="#a21f62" stop-opacity=".08"/></linearGradient>
+              <radialGradient id="windFill"><stop offset="0" stop-color="#fd6c50" stop-opacity=".08"/><stop offset=".7" stop-color="#f84c37" stop-opacity=".08"/><stop offset="1" stop-color="#ff896a" stop-opacity=".02"/></radialGradient>
               <filter id="pathGlow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
             <g id="latLonGrid" class="latlon-grid"></g>
@@ -94,7 +126,7 @@
             <circle id="windRadius10" class="wind-radius radius-10" cx="500" cy="340" r="34" />
           </svg>
           <div id="cityLayer" class="city-layer"></div>
-          <div id="storm" class="storm" aria-label="颱風即時位置">
+          <div id="storm" class="storm" aria-label="台風即時位置">
             <div class="storm-rainbands"></div>
             <div class="storm-cloud"></div>
             <div class="storm-core"></div>
@@ -103,27 +135,18 @@
           </div>
           <div class="scan-line"></div>
           <div class="map-toolbar">
-            <button class="active">衛星雲圖</button><button class="active">預測路徑</button><button class="active">城市</button><button>風場</button>
+            <button class="active">衛星雲圖</button><button class="active">天文台預測</button><button class="active">城市資訊點</button><button>風圈</button>
           </div>
           <div class="map-coordinate-band"><span>100°E</span><span>115°E</span><span>130°E</span><span>145°E</span><span>160°E</span></div>
           <div class="map-legend"><span>海溫（°C）</span><i></i><small>24</small><small>26</small><small>28</small><small>30</small><small>32+</small></div>
-          <div class="track-legend"><span><i class="dot observed"></i>實測路徑</span><span><i class="dot forecast"></i>預測中心</span><span><i class="uncertainty"></i>70% 機率圈</span></div>
+          <div class="track-legend"><span><i class="dot observed"></i>實測路徑</span><span><i class="dot forecast"></i>預測中心線</span><span><i class="uncertainty"></i>70% 機率圈</span></div>
           <div class="live-position" id="livePosition"></div>
           <div id="eventToast" class="event-toast"></div>
         </section>
 
-        <aside class="right-column">
-          <section class="hud-panel storm-data-panel">
-            <h3><span>颱風資料</span><b id="stormLevelBadge">等級 4 颱風</b></h3>
-            <div class="panel-body storm-summary">
-              <div class="storm-name"><span class="storm-symbol">◉</span><div><strong id="stormName">天鴻</strong><small id="stormCode">TY-0871</small></div></div>
-              <dl><div><dt>最大持續風速</dt><dd><b id="windValue">165</b> km/h</dd></div><div><dt>中心氣壓</dt><dd><b id="pressureValue">955</b> hPa</dd></div><div><dt>移動速度</dt><dd><b id="moveSpeedValue">18</b> km/h</dd></div><div><dt>移動方向</dt><dd id="directionValue">西北西</dd></div><div><dt>十級風半徑</dt><dd><b id="radiusValue">190</b> km</dd></div></dl>
-              <div class="sea-temp-block"><span>海溫異常（°C）</span><b id="seaTempValue">30.8°C</b><i></i><div class="temp-scale"><span>18</span><span>22</span><span>26</span><span>30</span><span>34+</span></div></div>
-              <div class="landfall-block"><span>預測登陸時間</span><strong id="landfallTime">7月17日 09:00</strong><div>⚠ 登陸風險：<b id="riskValue">高</b></div></div>
-            </div>
-          </section>
+        <aside class="right-column action-column">
           <section class="hud-panel action-panel">
-            <h3><span>策略行動指令</span><em>STRATEGIC ACTIONS</em></h3>
+            <h3><span>行動指令</span><em>STRATEGIC ACTIONS</em></h3>
             <div class="selected-city-bar"><span>目前選取</span><b id="selectedCityName">香港</b><small id="selectedCityCoords">22.32°N 114.17°E</small></div>
             <div class="action-list">
               <button data-action="evacuate"><span class="action-icon green">⌂</span><div><b>撤離部署</b><small>規劃撤離路線／啟動避難所</small></div><strong id="evacSummary">0%</strong></button>
@@ -134,6 +157,12 @@
             <div class="action-points">行動點 <b id="apValue">3</b> / <span id="apMax">3</span></div>
             <button id="endTurnButton" class="end-turn">結束部署並推進 6 小時</button>
           </section>
+
+          <section class="hud-panel resource-panel">
+            <h3><span>全域資源狀態</span><em>GLOBAL RESOURCES</em></h3>
+            <div class="resource-grid" id="resourceGrid"></div>
+          </section>
+
           <section class="hud-panel impact-panel"><h3><span>可能影響評估</span><em>IMPACT OUTLOOK</em></h3><div id="impactTimeline" class="impact-timeline"></div><div id="lossBars" class="loss-bars"></div></section>
         </aside>
       </div>
