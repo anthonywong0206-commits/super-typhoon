@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#06141d" />
+  <meta name="description" content="回合制極端氣候災難策略遊戲。預測超級颱風路線、撤離城市並部署氣象武器。" />
   <title>超級颱風危機：極端氣候時代</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -35,11 +36,11 @@
       <header class="topbar">
         <div class="brand-block"><h2>超級颱風危機</h2><p>極端氣候時代的生存戰略遊戲</p></div>
         <nav class="phase-nav" id="phaseNav">
-          <div class="phase active" data-phase="0"><b>1 監測預警</b><span>持續監測海洋與大氣</span></div>
-          <div class="phase" data-phase="1"><b>2 預測路線</b><span>評估路徑與登陸風險</span></div>
-          <div class="phase" data-phase="2"><b>3 撤離部署</b><span>保護人民，部署防禦</span></div>
-          <div class="phase" data-phase="3"><b>4 削弱風暴</b><span>使用氣象武器干預</span></div>
-          <div class="phase" data-phase="4"><b>5 減災重建</b><span>降低損失，恢復秩序</span></div>
+          <div class="phase active" data-phase="0"><i>⌖</i><b>1 監測預警</b><span>持續監測海洋與大氣</span></div>
+          <div class="phase" data-phase="1"><i>🌀</i><b>2 預測路線</b><span>評估路徑與登陸風險</span></div>
+          <div class="phase" data-phase="2"><i>⌂</i><b>3 撤離部署</b><span>保護人民，部署防禦</span></div>
+          <div class="phase" data-phase="3"><i>♨</i><b>4 削弱風暴</b><span>使用氣象武器干預</span></div>
+          <div class="phase" data-phase="4"><i>✧</i><b>5 減災重建</b><span>降低損失，恢復秩序</span></div>
         </nav>
         <div class="clock-block"><span id="gameDate">2087 / 7 / 14</span><strong id="gameTime">03:00</strong><small>回合 <b id="turnLabel">1</b>/16</small></div>
       </header>
@@ -47,85 +48,98 @@
       <div class="command-grid">
         <aside class="left-column">
           <section class="hud-panel genesis-panel">
-            <h3>系統隨機生成</h3>
+            <h3><span>系統隨機生成</span><em>GENESIS</em></h3>
             <div class="panel-body">
               <h4>颱風生成點</h4>
-              <div class="radar"><span></span><i></i></div>
+              <div class="radar"><span></span><i></i><b></b></div>
               <dl><div><dt>生成時間</dt><dd id="genesisTime">2087/7/14 03:00</dd></div><div><dt>位置</dt><dd id="genesisPos">北緯 16.3° 東經 131.7°</dd></div></dl>
+              <div class="system-line"><span></span>系統將隨機生成颱風與海溫場</div>
             </div>
           </section>
           <section class="hud-panel behavior-panel">
-            <h3>自主行為系統</h3>
+            <h3><span>自主行為系統</span><em>AUTONOMOUS</em></h3>
             <div class="panel-body">
               <h4>路徑自主選擇</h4>
               <svg class="branch-svg" viewBox="0 0 220 62" aria-hidden="true"><path d="M10 42 C62 45 74 18 116 30 S165 20 210 10"/><path d="M10 42 C70 43 96 50 142 52 S180 44 210 35"/><path d="M10 42 C74 40 96 12 142 8 S185 16 210 26"/></svg>
               <h4>強度依海溫增強</h4>
-              <div class="heat-rule"><span>🌀</span><b>＋</b><span>🌡️</span><b>＝</b><span>⛈️</span></div>
-              <p>海溫越高，能量越強</p>
+              <div class="heat-rule"><span class="mini-cyclone">◉</span><b>＋</b><span>31°C</span><b>＝</b><span class="storm-alert">超強</span></div>
+              <p>海溫越高，海洋熱含量越強</p>
             </div>
           </section>
           <div class="system-warning">⚠ AI 已接管颱風行為模式<br><small>人類無法直接控制其路徑與強度</small></div>
           <section class="hud-panel resource-panel">
-            <h3>全域資源狀態</h3>
+            <h3><span>全域資源狀態</span><em>GLOBAL RESOURCES</em></h3>
             <div class="resource-grid" id="resourceGrid"></div>
           </section>
         </aside>
 
         <section class="map-stage" id="mapStage">
-          <svg class="map-svg" viewBox="0 0 1000 680" preserveAspectRatio="none" aria-label="西太平洋戰術地圖">
+          <img class="map-base" src="assets/east-asia-satellite-map.png" alt="東亞及西北太平洋衛星戰術底圖" />
+          <div class="sea-heat heat-a"></div><div class="sea-heat heat-b"></div><div class="sea-heat heat-c"></div>
+          <svg id="weatherOverlay" class="map-svg" viewBox="0 0 1000 680" preserveAspectRatio="none" aria-label="天文台式颱風預測圖">
             <defs>
-              <radialGradient id="warmSea"><stop offset="0" stop-color="#ff3f20" stop-opacity=".8"/><stop offset=".45" stop-color="#dc2a18" stop-opacity=".45"/><stop offset="1" stop-color="#ff2e16" stop-opacity="0"/></radialGradient>
-              <linearGradient id="coneFill" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff375f" stop-opacity=".32"/><stop offset="1" stop-color="#ad1b58" stop-opacity=".12"/></linearGradient>
-              <filter id="glow"><feGaussianBlur stdDeviation="4" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              <linearGradient id="coneFill" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff436b" stop-opacity=".28"/><stop offset="1" stop-color="#a21f62" stop-opacity=".08"/></linearGradient>
+              <radialGradient id="windFill"><stop offset="0" stop-color="#fd6c50" stop-opacity=".05"/><stop offset=".7" stop-color="#f84c37" stop-opacity=".07"/><stop offset="1" stop-color="#ff896a" stop-opacity=".01"/></radialGradient>
+              <filter id="pathGlow"><feGaussianBlur stdDeviation="2.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
             </defs>
-            <rect width="1000" height="680" fill="#061c2a"/>
-            <g class="ocean-grid"><path d="M0 80H1000M0 160H1000M0 240H1000M0 320H1000M0 400H1000M0 480H1000M0 560H1000M0 640H1000"/><path d="M80 0V680M160 0V680M240 0V680M320 0V680M400 0V680M480 0V680M560 0V680M640 0V680M720 0V680M800 0V680M880 0V680M960 0V680"/></g>
-            <path class="land china" d="M0 0H360L344 58 305 90 292 136 264 165 257 228 231 275 213 337 191 394 164 442 139 500 112 558 80 620 0 680Z"/>
-            <path class="land korea" d="M356 12 392 28 407 64 388 112 362 96 348 57Z"/>
-            <path class="land japan" d="M450 18 482 32 505 50 532 69 562 92 588 123 604 147 587 157 561 134 535 115 510 87 480 73 459 51Z"/>
-            <path class="land taiwan" d="M309 300 330 319 335 370 319 414 301 384 296 340Z"/>
-            <path class="land philippines" d="M412 490 430 505 424 536 442 554 430 578 447 601 434 632 413 614 418 585 401 567 407 537 393 518Z"/>
-            <ellipse id="warmZone" cx="710" cy="420" rx="300" ry="240" fill="url(#warmSea)"/>
-            <path id="forecastCone" d="M790 445 C650 390 520 300 300 190 L235 260 C440 360 610 470 790 445Z" fill="url(#coneFill)" stroke="#ff7b9f" stroke-width="2" stroke-dasharray="8 7"/>
-            <path id="forecastPath" class="forecast-path" d="M790 445 C700 410 620 360 530 310 S380 245 265 215"/>
-            <path id="actualPath" class="actual-path" d="M790 445"/>
+            <g id="latLonGrid" class="latlon-grid"></g>
+            <g id="ensemblePaths" class="ensemble-paths"></g>
+            <path id="forecastCone" class="forecast-cone" d="" />
+            <path id="forecastPath" class="forecast-path" d="" />
+            <g id="forecastCircles" class="forecast-circles"></g>
+            <g id="forecastPoints" class="forecast-points"></g>
+            <path id="actualPath" class="actual-path" d="" />
+            <g id="actualPoints" class="actual-points"></g>
+            <circle id="windRadius7" class="wind-radius radius-7" cx="500" cy="340" r="60" />
+            <circle id="windRadius10" class="wind-radius radius-10" cx="500" cy="340" r="34" />
           </svg>
           <div id="cityLayer" class="city-layer"></div>
           <div id="storm" class="storm" aria-label="颱風即時位置">
-            <div class="storm-ring outer"></div><div class="storm-ring middle"></div><div class="storm-ring inner"></div><div class="storm-eye"></div><div class="lightning l1"></div><div class="lightning l2"></div>
+            <div class="storm-rainbands"></div>
+            <div class="storm-cloud"></div>
+            <div class="storm-core"></div>
+            <div class="storm-eye"></div>
+            <div class="lightning l1"></div><div class="lightning l2"></div><div class="lightning l3"></div>
           </div>
           <div class="scan-line"></div>
-          <div class="map-legend"><span>海溫</span><i></i><small>24</small><small>26</small><small>28</small><small>30</small><small>32+</small></div>
+          <div class="map-toolbar">
+            <button class="active">衛星雲圖</button><button class="active">預測路徑</button><button class="active">城市</button><button>風場</button>
+          </div>
+          <div class="map-coordinate-band"><span>100°E</span><span>115°E</span><span>130°E</span><span>145°E</span><span>160°E</span></div>
+          <div class="map-legend"><span>海溫（°C）</span><i></i><small>24</small><small>26</small><small>28</small><small>30</small><small>32+</small></div>
+          <div class="track-legend"><span><i class="dot observed"></i>實測路徑</span><span><i class="dot forecast"></i>預測中心</span><span><i class="uncertainty"></i>70% 機率圈</span></div>
           <div class="live-position" id="livePosition"></div>
           <div id="eventToast" class="event-toast"></div>
         </section>
 
         <aside class="right-column">
           <section class="hud-panel storm-data-panel">
-            <h3>颱風資料 <span id="stormLevelBadge">等級 3 颱風</span></h3>
-            <div class="panel-body storm-summary"><div class="storm-name"><span>🌀</span><div><strong id="stormName">天鴻</strong><small id="stormCode">TY-0871</small></div></div>
-              <dl><div><dt>最大持續風速</dt><dd><b id="windValue">165</b> km/h</dd></div><div><dt>中心氣壓</dt><dd><b id="pressureValue">955</b> hPa</dd></div><div><dt>移動速度</dt><dd><b id="moveSpeedValue">18</b> km/h</dd></div><div><dt>移動方向</dt><dd id="directionValue">西北西</dd></div><div><dt>暴風半徑</dt><dd><b id="radiusValue">190</b> km</dd></div></dl>
-              <div class="sea-temp-block"><span>海溫異常</span><b id="seaTempValue">30.8°C</b><i></i></div>
+            <h3><span>颱風資料</span><b id="stormLevelBadge">等級 4 颱風</b></h3>
+            <div class="panel-body storm-summary">
+              <div class="storm-name"><span class="storm-symbol">◉</span><div><strong id="stormName">天鴻</strong><small id="stormCode">TY-0871</small></div></div>
+              <dl><div><dt>最大持續風速</dt><dd><b id="windValue">165</b> km/h</dd></div><div><dt>中心氣壓</dt><dd><b id="pressureValue">955</b> hPa</dd></div><div><dt>移動速度</dt><dd><b id="moveSpeedValue">18</b> km/h</dd></div><div><dt>移動方向</dt><dd id="directionValue">西北西</dd></div><div><dt>十級風半徑</dt><dd><b id="radiusValue">190</b> km</dd></div></dl>
+              <div class="sea-temp-block"><span>海溫異常（°C）</span><b id="seaTempValue">30.8°C</b><i></i><div class="temp-scale"><span>18</span><span>22</span><span>26</span><span>30</span><span>34+</span></div></div>
               <div class="landfall-block"><span>預測登陸時間</span><strong id="landfallTime">7月17日 09:00</strong><div>⚠ 登陸風險：<b id="riskValue">高</b></div></div>
             </div>
           </section>
           <section class="hud-panel action-panel">
-            <h3>策略行動指令</h3>
+            <h3><span>策略行動指令</span><em>STRATEGIC ACTIONS</em></h3>
+            <div class="selected-city-bar"><span>目前選取</span><b id="selectedCityName">香港</b><small id="selectedCityCoords">22.32°N 114.17°E</small></div>
             <div class="action-list">
-              <button data-action="evacuate"><span>🏠</span><div><b>撤離部署</b><small>規劃路線／啟動避難所</small></div><strong id="evacSummary">0%</strong></button>
-              <button data-action="defend"><span>🛡️</span><div><b>沿岸防衛</b><small>加固防波堤／保護設施</small></div><strong id="defenseSummary">38%</strong></button>
-              <button data-action="supply"><span>📦</span><div><b>資源調度</b><small>調配物資／人員／能源</small></div><strong id="supplySummary">68%</strong></button>
-              <button data-action="intel"><span>📡</span><div><b>情報更新</b><small>收窄預測錐／提高可信度</small></div><strong id="intelSummary">52%</strong></button>
+              <button data-action="evacuate"><span class="action-icon green">⌂</span><div><b>撤離部署</b><small>規劃撤離路線／啟動避難所</small></div><strong id="evacSummary">0%</strong></button>
+              <button data-action="defend"><span class="action-icon blue">⬟</span><div><b>沿岸防衛</b><small>加固防波堤／保護關鍵設施</small></div><strong id="defenseSummary">38%</strong></button>
+              <button data-action="supply"><span class="action-icon amber">▣</span><div><b>資源調度</b><small>調配物資／人員／醫療能源</small></div><strong id="supplySummary">68%</strong></button>
+              <button data-action="intel"><span class="action-icon violet">⌁</span><div><b>情報更新</b><small>收窄預測錐／提高可信度</small></div><strong id="intelSummary">52%</strong></button>
             </div>
             <div class="action-points">行動點 <b id="apValue">3</b> / <span id="apMax">3</span></div>
             <button id="endTurnButton" class="end-turn">結束部署並推進 6 小時</button>
           </section>
-          <section class="hud-panel impact-panel"><h3>可能影響評估</h3><div id="impactTimeline" class="impact-timeline"></div><div id="lossBars" class="loss-bars"></div></section>
+          <section class="hud-panel impact-panel"><h3><span>可能影響評估</span><em>IMPACT OUTLOOK</em></h3><div id="impactTimeline" class="impact-timeline"></div><div id="lossBars" class="loss-bars"></div></section>
         </aside>
       </div>
 
       <footer class="weapon-dock">
-        <div class="dock-title"><b>氣象武器系統</b><span>選擇裝備後點擊部署</span></div>
+        <div class="dock-title"><b>氣象武器系統</b><span>METEOROLOGICAL INTERVENTION · 選擇裝備後部署</span></div>
         <div class="weapon-list" id="weaponList"></div>
       </footer>
     </section>
