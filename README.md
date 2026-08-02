@@ -46,7 +46,7 @@ git push -u origin main
 
 ## Vercel
 
-在 Vercel 匯入 GitHub Repository。Framework Preset 選擇 **Other**，Build Command 填寫 `npm run build`，Output Directory 填寫 `dist`。不需要任何環境變數。
+在 Vercel 匯入 GitHub Repository。專案已透過 `vercel.json` 固定 Build Command 為 `npm run build`，Output Directory 為 `dist`。Framework Preset 選擇 **Other**，不需要任何環境變數。若舊專案設定仍顯示 `public`，請到 Project Settings → Build and Deployment，把 Output Directory 改為 `dist` 後重新部署。
 
 ## 已知限制
 
