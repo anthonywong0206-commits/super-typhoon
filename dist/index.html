@@ -125,6 +125,7 @@
             <circle id="windRadius7" class="wind-radius radius-7" cx="500" cy="340" r="60" />
             <circle id="windRadius10" class="wind-radius radius-10" cx="500" cy="340" r="34" />
           </svg>
+          <div id="seaTempLabels" class="sea-temp-labels"></div>
           <div id="cityLayer" class="city-layer"></div>
           <div id="storm" class="storm" aria-label="台風即時位置">
             <div class="storm-rainbands"></div>
@@ -140,8 +141,10 @@
           <div class="map-coordinate-band"><span>100°E</span><span>115°E</span><span>130°E</span><span>145°E</span><span>160°E</span></div>
           <div class="map-legend"><span>海溫（°C）</span><i></i><small>24</small><small>26</small><small>28</small><small>30</small><small>32+</small></div>
           <div class="track-legend"><span><i class="dot observed"></i>實測路徑</span><span><i class="dot forecast"></i>預測中心線</span><span><i class="uncertainty"></i>70% 機率圈</span></div>
+          <div class="intensity-legend"><b>台風強度</b><span><i style="background:#60c9ff"></i>熱帶低氣壓</span><span><i style="background:#50e8df"></i>熱帶風暴</span><span><i style="background:#ffe56a"></i>強烈熱帶風暴</span><span><i style="background:#ff9c3a"></i>颱風</span><span><i style="background:#ff4e4e"></i>強颱風</span><span><i style="background:#ed4cff"></i>超強颱風</span></div>
           <div class="live-position" id="livePosition"></div>
           <div id="eventToast" class="event-toast"></div>
+          <div id="trackPopup" class="track-popup"></div>
         </section>
 
         <aside class="right-column action-column">
